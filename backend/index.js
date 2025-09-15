@@ -1,8 +1,8 @@
-import express from "express";
 import dotenv from "dotenv";
-import qnaRoutes from "./routes/qna.js";
-
 dotenv.config();
+
+import express from "express";
+import qnaRoutes from "./routes/qna.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
