@@ -2,9 +2,12 @@ import pool from "../db/connection.js";
 
 export const startNewSession = async (req,res) => {
   try {
-    // Insert a new row using defaults (id auto + created_at auto)
+    const { topic, difficulty } = req.body;
+
     const result = await pool.query(
-      "INSERT INTO sessions DEFAULT VALUES RETURNING *"
+      `INSERT INTO sessions (user_id, topic, difficulty) 
+       VALUES ($1, $2, $3) RETURNING *`,
+      [req.user.userId, topic || null, difficulty || null]
     );
 
     // Send the created session back
@@ -20,7 +23,8 @@ export const startNewSession = async (req,res) => {
 
 export const allSessions = async (req,res) => {
     try {
-        const result = await pool.query("SELECT * FROM sessions ORDER BY id DESC");
+        const result = await pool.query("SELECT * FROM sessions WHERE user_id = $1 ORDER BY id DESC", [req.user.userId]);
+
         res.json(result.rows);
     } catch (err) {
         console.error("❌ Error fetching sessions:", err.message);
@@ -32,7 +36,10 @@ export const allSessions = async (req,res) => {
 export const specificSession = async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await pool.query("SELECT * FROM sessions WHERE id = $1", [id]);
+    const result = await pool.query(
+      "SELECT * FROM sessions WHERE id = $1 AND user_id = $2",
+      [id, req.user.userId]
+    );
 
     if (result.rows.length === 0) {
       return res.status(404).json({ error: "Session not found" });
@@ -49,7 +56,10 @@ export const specificSession = async (req, res) => {
 export const deleteSession = async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await pool.query("DELETE FROM sessions WHERE id = $1 RETURNING *", [id]);
+     const result = await pool.query(
+      "DELETE FROM sessions WHERE id = $1 AND user_id = $2 RETURNING *",
+      [id, req.user.userId]
+    );
 
     if (result.rows.length === 0) {
       return res.status(404).json({ error: "Session not found" });
