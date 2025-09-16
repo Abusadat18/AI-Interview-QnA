@@ -1,19 +1,32 @@
 import { getAIResponse } from "../services/aiService.js";
+import pool from "../db/connection.js";
 
 export const askQuestion = async (req, res) => {
   try {
-    const { question } = req.body;
+    const { session_id, question, user_answer } = req.body;
 
-    if (!question) {
-      return res.status(400).json({ error: "Question is required" });
+    if (!session_id || !question) {
+      return res.status(400).json({ error: "session_id and question are required" });
     }
 
-    // Call AI service
-    const answer = await getAIResponse(question);
-    res.json({ question, answer });
-    
+    // Step 1: Get AI response
+    const ai_answer = await getAIResponse(question);
+
+    // Step 2: Save into DB
+    const result = await pool.query(
+      `INSERT INTO questions (session_id, question_text, user_answer, ai_answer)
+       VALUES ($1, $2, $3, $4)
+       RETURNING *`,
+      [session_id, question, user_answer || null, ai_answer]
+    );
+
+    // Step 3: Return the saved row
+    res.json({
+      message: "Question saved successfully",
+      question: result.rows[0],
+    });
   } catch (error) {
-    console.error("Error in QnA Controller:", error.message);
+    console.error("❌ Error in QnA Controller:", error.message);
     res.status(500).json({ error: "Server error" });
   }
 };
