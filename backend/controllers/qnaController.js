@@ -30,3 +30,30 @@ export const askQuestion = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+// GET /api/qna/history/:sessionId
+export const getSessionHistory = async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+
+    if (!sessionId) {
+      return res.status(400).json({ error: "sessionId is required" });
+    }
+
+    const result = await pool.query(
+      `SELECT id, session_id, question_text, user_answer, ai_answer, created_at
+       FROM questions
+       WHERE session_id = $1
+       ORDER BY created_at ASC`,
+      [sessionId]
+    );
+
+    res.json({
+      sessionId,
+      history: result.rows, // array of rows from the 'questions' table
+    });
+  } catch (error) {
+    console.error("Error fetching session history:", error.message);
+    res.status(500).json({ error: "Server error" });
+  }
+};

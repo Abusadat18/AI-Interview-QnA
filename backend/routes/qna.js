@@ -1,9 +1,9 @@
 import express from "express";
-import { askQuestion } from "../controllers/qnaController.js";
+import { askQuestion, getSessionHistory } from "../controllers/qnaController.js";
 
 const router = express.Router();
 
-// POST /api/qna/ask
 router.post("/ask", askQuestion);
+router.get("/history/:sessionId", getSessionHistory);
 
 export default router;
