@@ -5,6 +5,7 @@ import express from "express";
 import cors from "cors";
 import qnaRoutes from "./routes/qna.js";
 import sessionRoutes from "./routes/session.js";
+import authRoutes from "./routes/auth.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -16,6 +17,7 @@ app.use(express.json());
 // Routes
 app.use("/api/qna", qnaRoutes);
 app.use("/api/sessions", sessionRoutes);
+app.use("/api/auth", authRoutes);
 
 // Start server
 app.listen(PORT, () => {
