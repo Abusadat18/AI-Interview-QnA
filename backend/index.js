@@ -4,6 +4,7 @@ dotenv.config();
 import express from "express";
 import cors from "cors";
 import qnaRoutes from "./routes/qna.js";
+import sessionRoutes from "./routes/session.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -14,6 +15,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/qna", qnaRoutes);
+app.use("/api/sessions", sessionRoutes);
 
 // Start server
 app.listen(PORT, () => {
