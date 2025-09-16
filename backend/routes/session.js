@@ -1,14 +1,13 @@
 import express from "express";
 import { allSessions, deleteSession, specificSession, startNewSession } from "../controllers/sessionController.js";
+import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-// 🎯 Route: Start a new session
-router.post("/start", startNewSession);
-
-// 🎯 Route: Get all sessions (for testing/debugging)
-router.get("/", allSessions);
-router.get("/:id", specificSession);
-router.delete("/:id", deleteSession);
+// Protected routes
+router.post("/start",authMiddleware, startNewSession);
+router.get("/",authMiddleware, allSessions);
+router.get("/:id", authMiddleware, specificSession);
+router.delete("/:id",authMiddleware, deleteSession);
 
 export default router;
