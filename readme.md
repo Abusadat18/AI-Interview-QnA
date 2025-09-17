@@ -179,7 +179,6 @@ DELETE FROM sessions WHERE id = 10 RETURNING *;
 * **Authentication**: Refresh tokens, password reset
 * **Sessions**: Topic/difficulty selection, analytics
 * **Questions**: Difficulty level for AI questions, voice input/output
-* **Frontend**: React + Vite + Tailwind, sidebar with session history, real-time chat
 * **Database**: Pagination, `updated_at` timestamps
 
 ---
@@ -195,42 +194,6 @@ It consumes the backend API (Express + PostgreSQL) to provide:
 * Authentication (Login/Register)
 * Session management (create, list, delete)
 * Practice interface (ask AI questions, view answers, and history)
-
-The app is fully responsive and designed to feel like a **mock interview platform**.
-
----
-
-## 🏗️ Project Structure
-
-```plaintext
-frontend/
- ├── src/
- │    ├── components/
- │    │    ├── Navbar.jsx        # Top navigation bar
- │    │    ├── Sidebar.jsx       # Session history sidebar
- │    │    ├── ChatBox.jsx       # Chat-like QnA display
- │    │    ├── InputBox.jsx      # Input area for questions
- │    │    └── ProtectedRoute.jsx # Wrapper for auth-protected pages
- │    │
- │    ├── pages/
- │    │    ├── Home.jsx          # Landing page
- │    │    ├── Login.jsx         # Login page
- │    │    ├── Register.jsx      # Registration page
- │    │    ├── Dashboard.jsx     # Shows sessions + start new
- │    │    └── Practice.jsx      # Main practice page
- │    │
- │    ├── services/
- │    │    └── api.js            # Fetch helpers for backend calls
- │    │
- │    ├── context/
- │    │    └── AuthContext.jsx   # Stores user/auth state globally
- │    │
- │    ├── App.jsx                # Routes config
- │    ├── main.jsx               # App entry
- │    └── index.css              # Tailwind setup
- │
- └── package.json
-```
 
 ---
 
@@ -299,18 +262,6 @@ export const login = async (email, password) => {
 ```
 
 Same pattern for register, sessions, and QnA.
-
----
-
-## 🖼️ UI Design Guidelines
-
-* **TailwindCSS** for styling.
-* **Responsive** → mobile-first (sidebar collapses on small screens).
-* **Interview-like feel** →
-
-  * Dark mode toggle (optional later).
-  * Chat bubbles for QnA (user vs AI).
-  * Minimal distractions.
 
 ---
 

@@ -1,14 +1,25 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Practice from "./pages/Practice";
+import Login from "./pages/Login.jsx";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
+import Session from "./pages/Session";
+import ProtectedRoute from "./components/ProtectedRoute";
 
-function App() {
+export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/practice" element={<Practice />} />
-    </Routes>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        <Route path="/dashboard" element={
+          <ProtectedRoute><Dashboard /></ProtectedRoute>
+        } />
+
+        <Route path="/sessions/:id" element={
+          <ProtectedRoute><Session /></ProtectedRoute>
+        } />
+      </Routes>
   );
 }
-
-export default App;

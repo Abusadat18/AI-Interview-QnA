@@ -48,8 +48,7 @@ The platform will allow users to input job roles or topics, and receive relevant
 
 ---
 
-## 5. 🚀 Future Enhancements
-- **Authentication (Login/Register)** to save progress.  
+## 5. 🚀 Future Enhancements  
 - **Multiple difficulty levels** (Easy, Medium, Hard).  
 - **Category selection** (DSA, System Design, DBMS, HR, etc.).  
 - **Analytics Dashboard** (Track improvement over time).  
@@ -61,29 +60,4 @@ The platform will allow users to input job roles or topics, and receive relevant
 - **Frontend:** React + Vite + TailwindCSS  
 - **Backend:** Node.js (Express)  
 - **Database:** PostgreSQL (for user sessions, history)  
-- **AI Integration:** OpenAI API (or other LLM API)  
-- **Hosting:** Vercel (Frontend) + Render/Heroku (Backend)  
-
----
-
-## 7. 📂 Project Structure (Planned)
-
-```plaintext
-ai-interview-qna/
- ├── frontend/ (React + Tailwind)
- │    ├── src/
- │    │    ├── components/
- │    │    │    ├── ChatBox.jsx
- │    │    │    ├── Sidebar.jsx
- │    │    │    └── InputBox.jsx
- │    │    ├── pages/
- │    │    │    └── Home.jsx
- │    │    └── App.jsx
- │    └── index.html
- ├── backend/ (Express API)
- │    ├── routes/
- │    │    └── qna.js
- │    ├── models/
- │    │    └── Session.js
- │    └── server.js
- └── README.md
+- **AI Integration:** Gemini API (or other LLM API)    
