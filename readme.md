@@ -27,7 +27,6 @@ AI Interview QnA is a backend for a web platform that allows users to:
 * **Authentication:** JWT
 * **Password Hashing:** bcrypt
 * **Environment Variables:** `.env` for secrets & DB credentials
-* **Hosting:** Local / Render / Heroku
 
 ---
 
@@ -113,8 +112,8 @@ CREATE TABLE questions (
 
 | Method | Endpoint            | Auth | Description                                                    |
 | ------ | ------------------- | ---- | -------------------------------------------------------------- |
-| POST   | `/api/sessions`     | ✅    | Create a new session                                           |
-| GET    | `/api/sessions`     | ✅    | List all sessions for logged-in user                           |
+| POST   | `/api/sessions/start`     | ✅    | Create a new session                                           |
+| GET    | `/api/sessions/`     | ✅    | List all sessions for logged-in user                           |
 | GET    | `/api/sessions/:id` | ✅    | Get a specific session (ownership enforced)                    |
 | DELETE | `/api/sessions/:id` | ✅    | Delete session (cascade deletes questions, ownership enforced) |
 
