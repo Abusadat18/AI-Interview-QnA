@@ -183,5 +183,145 @@ DELETE FROM sessions WHERE id = 10 RETURNING *;
 * **Database**: Pagination, `updated_at` timestamps
 
 ---
+---
+
+# 🎨 Frontend Documentation – AI Interview QnA
+
+## 📌 Overview
+
+The frontend is a **React + TailwindCSS** application.
+It consumes the backend API (Express + PostgreSQL) to provide:
+
+* Authentication (Login/Register)
+* Session management (create, list, delete)
+* Practice interface (ask AI questions, view answers, and history)
+
+The app is fully responsive and designed to feel like a **mock interview platform**.
+
+---
+
+## 🏗️ Project Structure
+
+```plaintext
+frontend/
+ ├── src/
+ │    ├── components/
+ │    │    ├── Navbar.jsx        # Top navigation bar
+ │    │    ├── Sidebar.jsx       # Session history sidebar
+ │    │    ├── ChatBox.jsx       # Chat-like QnA display
+ │    │    ├── InputBox.jsx      # Input area for questions
+ │    │    └── ProtectedRoute.jsx # Wrapper for auth-protected pages
+ │    │
+ │    ├── pages/
+ │    │    ├── Home.jsx          # Landing page
+ │    │    ├── Login.jsx         # Login page
+ │    │    ├── Register.jsx      # Registration page
+ │    │    ├── Dashboard.jsx     # Shows sessions + start new
+ │    │    └── Practice.jsx      # Main practice page
+ │    │
+ │    ├── services/
+ │    │    └── api.js            # Fetch helpers for backend calls
+ │    │
+ │    ├── context/
+ │    │    └── AuthContext.jsx   # Stores user/auth state globally
+ │    │
+ │    ├── App.jsx                # Routes config
+ │    ├── main.jsx               # App entry
+ │    └── index.css              # Tailwind setup
+ │
+ └── package.json
+```
+
+---
+
+## 🔑 Auth Flow
+
+### 🔹 Registration
+
+* **Frontend**: `Register.jsx` form → sends `{ name, email, password }`
+* **Backend**: `/api/auth/register` → stores user in DB
+
+### 🔹 Login
+
+* **Frontend**: `Login.jsx` form → sends `{ email, password }`
+* **Backend**: `/api/auth/login` → returns **JWT token**
+
+### 🔹 Storing Token
+
+* JWT is stored in **localStorage** (or cookies later).
+* Every protected API call adds header:
+
+```http
+Authorization: Bearer <token>
+```
+
+### 🔹 Protected Routes
+
+* `ProtectedRoute.jsx` checks if user is logged in.
+* If not → redirects to `/login`.
+
+---
+
+## 📂 Pages Flow
+
+1. **Home.jsx** → Intro + CTA to login/register.
+2. **Login/Register** → Get access.
+3. **Dashboard.jsx** →
+
+   * Show all sessions of the logged-in user (`GET /api/sessions`).
+   * Start a new session (`POST /api/sessions/start`).
+   * Delete old sessions.
+4. **Practice.jsx** →
+
+   * Sidebar: Session history (`GET /api/qna/history/:sessionId`).
+   * Main ChatBox: User asks question → AI responds (`POST /api/qna/ask`).
+   * InputBox: Send question.
+
+---
+
+## 🌐 API Usage (Frontend)
+
+All backend calls are wrapped in `services/api.js`.
+
+Example:
+
+```js
+const API_URL = "http://localhost:5000/api";
+
+export const login = async (email, password) => {
+  const res = await fetch(`${API_URL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+  return res.json();
+};
+```
+
+Same pattern for register, sessions, and QnA.
+
+---
+
+## 🖼️ UI Design Guidelines
+
+* **TailwindCSS** for styling.
+* **Responsive** → mobile-first (sidebar collapses on small screens).
+* **Interview-like feel** →
+
+  * Dark mode toggle (optional later).
+  * Chat bubbles for QnA (user vs AI).
+  * Minimal distractions.
+
+---
+
+## ✅ Example Workflow
+
+1. User registers/logs in → JWT stored.
+2. Dashboard loads → fetches sessions for that user.
+3. User clicks "Start New Session" → new session ID created.
+4. User asks a question → sent to `/api/qna/ask`.
+5. AI answer + question stored in DB, displayed in UI.
+6. Sidebar shows history → pulled from `/api/qna/history/:sessionId`.
+7. User can delete session if no longer needed.
 
 
